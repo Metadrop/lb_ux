@@ -1,0 +1,69 @@
+.layout-builder__section {
+  padding: 0 1.5em 1.5em;
+  outline: 2px dashed #979797;
+}
+
+.layout-builder__actions {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 6px;
+  text-transform: uppercase;
+  color: #fff;
+  font-size: 12px;
+}
+
+.layout-builder__actions__section {
+  margin-top: -2px;
+  margin-left: -23px;
+  margin-bottom: 20px;
+  background-color: #777;
+}
+
+.layout-builder__actions__block {
+  margin: -2px 0 -2px 0;
+  background-color: #618eab;
+}
+
+.layout-builder__actions .layout-builder__section-label {
+  display: inline-block;
+  margin-right: 4px;
+}
+
+.layout-builder__actions .layout-builder__link {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+  text-indent: -9999px;
+  border: 0;
+  font-size: 1rem;
+}
+
+.layout-builder__actions .layout-builder__link--configure {
+  background: url(../images/ffffff/pencil.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__actions .layout-builder__link--configure:hover {
+  background: url(../images/bebebe/pencil.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__actions .layout-builder__link--move {
+  background: url(../images/ffffff/move.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__actions .layout-builder__link--move:hover {
+  background: url(../images/bebebe/move.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__actions .layout-builder__link--remove {
+  background: url(../images/ffffff/ex.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__actions .layout-builder__link--remove:hover {
+  background: url(../images/bebebe/ex.svg) center center / 12px 12px no-repeat;
+}

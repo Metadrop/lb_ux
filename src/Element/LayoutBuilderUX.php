@@ -127,4 +127,13 @@ class LayoutBuilderUX extends LayoutBuilder {
     return $build;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function layout(SectionStorageInterface $section_storage) {
+    $build = parent::layout($section_storage);
+    $build['#attached']['library'][] = 'lb_ux/drupal.lb_ux';
+    return $build;
+  }
+
 }

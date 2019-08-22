@@ -1,0 +1,5 @@
+drupal.lb_ux:
+  version: VERSION
+  css:
+    theme:
+      css/layout-builder-ux.css: {}
