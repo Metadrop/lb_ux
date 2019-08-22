@@ -1,0 +1,7 @@
+name: 'Layout Builder UX'
+type: module
+description: 'Alters the Layout Builder UI for better usability'
+package: Layout Builder
+core: 8.x
+dependencies:
+  - drupal:layout_builder
