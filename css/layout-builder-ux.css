@@ -1,6 +1,9 @@
 .layout-builder__section {
-  padding: 0 1.5em 1.5em;
   outline: 2px dashed #979797;
+}
+
+.layout-builder__layout {
+  padding: 0 1em 1em;
 }
 
 .layout-builder__actions {
@@ -13,9 +16,7 @@
 }
 
 .layout-builder__actions__section {
-  margin-top: -2px;
-  margin-left: -23px;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
   background-color: #777;
 }
 
@@ -38,10 +39,9 @@
   height: 20px;
   margin: 0;
   padding: 0;
-  white-space: nowrap;
-  text-indent: -9999px;
   border: 0;
   font-size: 1rem;
+  pointer-events: auto;
 }
 
 .layout-builder__actions .layout-builder__link--configure {
@@ -66,4 +66,22 @@
 
 .layout-builder__actions .layout-builder__link--remove:hover {
   background: url(../images/bebebe/ex.svg) center center / 12px 12px no-repeat;
+}
+
+.layout-builder__region {
+  outline: initial;
+}
+
+.layout-builder__region > .layout-builder-block {
+  border: 2px dotted #2f91da;
+  margin: 10px 5px;
+  padding: 0;
+}
+
+.layout-builder-block .layout-builder-block {
+  padding: 1em;
+}
+
+.layout-builder__add-block {
+  margin: 10px 5px;
 }
