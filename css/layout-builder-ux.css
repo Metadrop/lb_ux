@@ -75,15 +75,24 @@
   background-color: #eee;
 }
 
+.layout-builder__add-section:hover {
+  background-color: #ccc;
+}
+
 .layout-builder__link--add {
   display: block;
   padding: 0.5em 0;
-  padding-left: 15px;
+  padding-left: 30px;
   background-position: 10px center;
 }
 
 .layout-builder__add-block {
-  padding: 0.5em 0;
+  padding: 0;
+  text-align: left;
+}
+
+.layout-builder__add-block:hover {
+  background-color: #ccc;
 }
 
 .layout-builder__region {
