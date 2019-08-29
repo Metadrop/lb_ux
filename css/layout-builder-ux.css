@@ -39,9 +39,9 @@
   height: 20px;
   margin: 0;
   padding: 0;
+  pointer-events: auto;
   border: 0;
   font-size: 1rem;
-  pointer-events: auto;
 }
 
 .layout-builder__actions .layout-builder__link--configure {
@@ -68,14 +68,32 @@
   background: url(../images/bebebe/ex.svg) center center / 12px 12px no-repeat;
 }
 
+.layout-builder__add-section {
+  padding: 0;
+  text-align: left;
+  outline: initial;
+  background-color: #eee;
+}
+
+.layout-builder__link--add {
+  display: block;
+  padding: 0.5em 0;
+  padding-left: 15px;
+  background-position: 10px center;
+}
+
+.layout-builder__add-block {
+  padding: 0.5em 0;
+}
+
 .layout-builder__region {
   outline: initial;
 }
 
 .layout-builder__region > .layout-builder-block {
-  border: 2px dotted #2f91da;
   margin: 10px 5px;
   padding: 0;
+  border: 2px dotted #2f91da;
 }
 
 .layout-builder-block .layout-builder-block {
@@ -84,4 +102,15 @@
 
 .layout-builder__add-block {
   margin: 10px 5px;
+}
+
+/* Override colors and floats that Bartik sets. */
+.layout-container .region-header,
+.layout-container .region-header a {
+  color: initial;
+}
+
+.layout-container .region-header .layout-builder-block {
+  float: none;
+  clear: none;
 }
