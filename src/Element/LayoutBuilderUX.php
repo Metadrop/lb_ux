@@ -73,6 +73,7 @@ class LayoutBuilderUX extends LayoutBuilder {
                 'layout-builder__actions',
                 'layout-builder__actions__block',
               ],
+              'tabindex' => 0,
             ],
             'label' => [
               '#type' => 'html_tag',

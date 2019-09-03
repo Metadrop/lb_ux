@@ -25,6 +25,13 @@
   top: 0;
   left: 0;
   background-color: #618eab;
+  transition: all 100ms linear;
+  opacity: 0;
+}
+
+.layout-builder__region > .layout-builder-block:hover .layout-builder__actions__block,
+.layout-builder__region > .layout-builder-block:focus .layout-builder__actions__block {
+  opacity: 1;
 }
 
 .layout-builder__actions .layout-builder__section-label {
