@@ -3,3 +3,7 @@ drupal.lb_ux:
   css:
     theme:
       css/layout-builder-ux.css: {}
+  js:
+    js/lb_ux.js: {}
+  dependencies:
+    - core/jquery

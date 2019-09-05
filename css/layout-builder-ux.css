@@ -40,6 +40,10 @@
   opacity: 1;
 }
 
+.layout-builder__actions--display {
+  opacity: 1;
+}
+
 .layout-builder__actions .layout-builder__section-label {
   display: inline-block;
   margin-right: 4px;
@@ -136,6 +140,10 @@
   border: 2px dotted #2f91da;
 }
 
+.layout-builder__region > .layout-builder-block.layout-builder__block--selected {
+  border: 2px solid #618dac;
+}
+
 .layout-builder-block .layout-builder-block {
   padding: 1em;
 }
@@ -144,13 +152,14 @@
   margin: 10px 5px;
 }
 
-/* Override colors and floats that Bartik sets. */
-.region-header .layout-builder-form,
-.region-header .layout-builder-block a {
-  color: initial;
+.layout-builder-block.is-layout-builder-highlighted {
+  border: 0;
 }
 
+/* Override colors and floats that Bartik sets. */
 .layout-container .region-header .layout-builder-block {
   float: none;
   clear: none;
 }
+
+
