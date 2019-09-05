@@ -18,6 +18,12 @@
   top: 0;
   left: 0;
   background-color: #777;
+  transition: all 100ms linear;
+  opacity: 0;
+}
+
+.layout-builder__section:hover .layout-builder__actions__section {
+  opacity: 1;
 }
 
 .layout-builder__actions__block {
