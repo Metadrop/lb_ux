@@ -17,9 +17,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #777;
   transition: all 100ms linear;
   opacity: 0;
+  background-color: #777;
 }
 
 .layout-builder__section:hover .layout-builder__actions__section {
@@ -30,9 +30,9 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #618eab;
   transition: all 100ms linear;
   opacity: 0;
+  background-color: #618eab;
 }
 
 .layout-builder__region > .layout-builder-block:hover .layout-builder__actions__block,
@@ -137,7 +137,7 @@
   position: relative;
   margin: 10px 5px;
   padding: 0;
-  border: 2px dotted #2f91da;
+  border: 2px dotted #618dac;
 }
 
 .layout-builder__region > .layout-builder-block.layout-builder__block--selected {
@@ -152,13 +152,16 @@
   margin: 10px 5px;
 }
 
-.layout-builder-block.is-layout-builder-highlighted {
-  border: 0;
+.layout-builder__section .ui-sortable-helper {
+  border: 2px solid #618dac;
+  outline: initial;
+  box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.5);
 }
 
-.layout-builder__section .ui-sortable-helper {
-  outline: initial;
-  border: 2px solid #618dac;
+/* Remove border from 'inner' layout builder block when it is highlighted. */
+.layout-builder-block .layout-builder-block.is-layout-builder-highlighted,
+.layout-builder__layout.is-layout-builder-highlighted {
+  border: 0;
 }
 
 /* Override colors and floats that Bartik sets. */
@@ -166,5 +169,3 @@
   float: none;
   clear: none;
 }
-
-
