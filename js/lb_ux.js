@@ -30,6 +30,12 @@
           $('.layout-builder__actions--display').removeClass('layout-builder__actions--display');
         }
       });
+
+      $('.layout-builder__region > .layout-builder-block').once().on('click', function (event) {
+        $('.layout-builder__region > .layout-builder-block').removeClass('layout-builder__block--selected');
+
+        $(event.currentTarget).addClass('layout-builder__block--selected');
+      });
     }
   };
 })(jQuery, Drupal);

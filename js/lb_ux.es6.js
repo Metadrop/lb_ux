@@ -41,6 +41,12 @@
           );
         }
       });
+
+      $('.layout-builder__region > .layout-builder-block').once().on('click', (event) => {
+        $('.layout-builder__region > .layout-builder-block').removeClass('layout-builder__block--selected');
+        
+        $(event.currentTarget).addClass('layout-builder__block--selected');
+      });
     },
   };
 })(jQuery, Drupal);

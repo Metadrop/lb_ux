@@ -156,6 +156,11 @@
   border: 0;
 }
 
+.layout-builder__section .ui-sortable-helper {
+  outline: initial;
+  border: 2px solid #618dac;
+}
+
 /* Override colors and floats that Bartik sets. */
 .layout-container .region-header .layout-builder-block {
   float: none;
