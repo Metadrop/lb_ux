@@ -8,7 +8,7 @@ use Drupal\layout_builder\Element\LayoutBuilder;
 use Drupal\layout_builder\SectionStorageInterface;
 
 /**
- * @todo.
+ * Alters the Layout Builder UI element.
  */
 class LayoutBuilderUX extends LayoutBuilder {
 
@@ -23,7 +23,7 @@ class LayoutBuilderUX extends LayoutBuilder {
     $build['configure']['#title'] = $this->t('<span class="visually-hidden">Configure @section</span>', ['@section' => $section_label]);
 
     $build['remove']['#title'] = $this->t('<span class="visually-hidden">Remove @section</span>', ['@section' => $section_label]);
-    
+
     $build['actions'] = [
       '#type' => 'container',
       '#weight' => -100,
