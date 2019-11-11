@@ -35,8 +35,8 @@
   background-color: #618eab;
 }
 
-.layout-builder__region > .layout-builder-block:hover .layout-builder__actions__block,
-.layout-builder__region > .layout-builder-block:focus .layout-builder__actions__block {
+.layout-builder__region > .layout-builder-block:hover:not(.ui-state-drop) .layout-builder__actions__block,
+.layout-builder__region > .layout-builder-block:focus:not(.ui-state-drop) .layout-builder__actions__block {
   opacity: 1;
 }
 
@@ -140,7 +140,8 @@
   border: 2px dotted #618dac;
 }
 
-.layout-builder__region > .layout-builder-block.layout-builder__block--selected {
+.layout-builder__region > .layout-builder-block:hover:not(.ui-state-drop),
+.layout-builder__region > .layout-builder-block:focus:not(.ui-state-drop) {
   border: 2px solid #618dac;
 }
 
@@ -152,6 +153,19 @@
   border: 2px solid #618dac;
   outline: initial;
   box-shadow: 0 10px 24px 0 rgba(0, 0, 0, 0.5);
+}
+
+.layout-builder__section .ui-state-drop {
+  margin: 10px 5px;
+  padding: 1em;
+  border: none;
+  outline: none;
+  background-color: #fed87a;
+  background-image: repeating-linear-gradient(45deg, #fed87a, #fed87a 9px, #fff88d 9px, #fff88d 12px);
+}
+
+.ui-state-drop > div {
+  opacity: 0;
 }
 
 /* Remove border from 'inner' layout builder block when it is highlighted. */
