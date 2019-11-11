@@ -54,18 +54,17 @@ class LayoutBuilderUX extends LayoutBuilder {
 
         $preview_fallback_string = $build['layout-builder__section'][$region][$uuid]['#attributes']['data-layout-content-preview-placeholder-label'];
         $route_parameters = $build['layout-builder__section'][$region][$uuid]['#contextual_links']['layout_builder_block']['route_parameters'];
+
+        // Remove default contextual links.
         unset($build['layout-builder__section'][$region][$uuid]['#contextual_links']['layout_builder_block']);
 
-        $build['layout-builder__section'][$region][$uuid] = [
-          '#type' => 'container',
-          '#attributes' => [
-            'class' => [
-              'js-layout-builder-block',
-              'layout-builder-block',
-            ],
-            'data-layout-block-uuid' => $uuid,
-            'data-layout-builder-highlight-id' => $this->blockUpdateHighlightId($uuid),
-          ],
+
+        // Ensure the 'content' key is present, as set by
+        // \Drupal\layout_builder\EventSubscriber\BlockComponentRenderArray.
+        assert(isset($build['layout-builder__section'][$region][$uuid]['content']));
+
+        // Replace content with actions and previous content.
+        $build['layout-builder__section'][$region][$uuid]['content'] = [
           'actions' => [
             '#type' => 'container',
             '#attributes' => [
@@ -126,7 +125,7 @@ class LayoutBuilderUX extends LayoutBuilder {
               ],
             ],
           ],
-          'block' => $build['layout-builder__section'][$region][$uuid],
+          'content' => $build['layout-builder__section'][$region][$uuid]['content'],
         ];
       }
     }

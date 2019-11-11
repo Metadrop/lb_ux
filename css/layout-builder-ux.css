@@ -136,16 +136,12 @@
 .layout-builder__region > .layout-builder-block {
   position: relative;
   margin: 10px 5px;
-  padding: 0;
+  padding: 1em;
   border: 2px dotted #618dac;
 }
 
 .layout-builder__region > .layout-builder-block.layout-builder__block--selected {
   border: 2px solid #618dac;
-}
-
-.layout-builder-block .layout-builder-block {
-  padding: 1em;
 }
 
 .layout-builder__add-block {
