@@ -73,7 +73,7 @@
 }
 
 .layout-builder__actions .layout-builder__link--configure {
-  background: url(../images/ffffff/pencil.svg) center center / 12px 12px no-repeat;
+  background: url(../images/ffffff/cog.svg) center center / 12px 12px no-repeat;
 }
 
 .layout-builder__actions .layout-builder__link--move {
