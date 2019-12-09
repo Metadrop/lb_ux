@@ -6,6 +6,18 @@
 **/
 
 (function ($, Drupal, drupalSettings) {
+  Drupal.Message.defaultWrapper = function () {
+    var wrapper = document.querySelector('[data-drupal-messages]');
+    if (!wrapper) {
+      wrapper = document.querySelector('[data-drupal-messages-fallback]');
+      wrapper.removeAttribute('data-drupal-messages-fallback');
+      wrapper.setAttribute('data-drupal-messages', '');
+      wrapper.classList.remove('hidden');
+    }
+    var inner = wrapper.querySelector('.messages__wrapper');
+    return inner || wrapper;
+  };
+
   Drupal.behaviors.LbUXMessage = {
     attach: function attach() {
       var displayMessages = function displayMessages(messageList) {
@@ -27,7 +39,17 @@
           var message = item.message,
               type = item.type;
 
-          var id = messages.add(message, { priority: type, type: type, index: index });
+          var id = messages.add(message, { priority: type, type: type });
+          var messageClose = document.createElement("button");
+          var messageWrapper = document.querySelector('[data-drupal-message-id=' + id + ']');
+
+          messageClose.innerHTML = '<span class="visually-hidden">Close</span>';
+          messageClose.setAttribute("data-drupal-message-id", id);
+          messageClose.classList.add("drupal-message-close");
+          messageWrapper.classList.add("messages__closeable");
+          messageWrapper.style.setProperty("--animation-index", index);
+          messageWrapper.appendChild(messageClose);
+
           drupalSettings.lbUX.messageDisplay.push({
             text: message,
             type: type,
@@ -35,7 +57,7 @@
           });
         });
 
-        var messagesWrapper = document.querySelector(".messages__wrapper");
+        var messagesWrapper = document.querySelector("[data-drupal-messages]");
         messagesWrapper.classList.add("js-messages__wrapper");
         messagesWrapper.addEventListener("click", function (event) {
           if (event.target.classList.contains("drupal-message-close")) {
@@ -52,35 +74,5 @@
         displayMessages(drupalSettings.lbUX.messageList);
       }
     }
-  };
-
-  Drupal.theme.message = function (_ref, _ref2) {
-    var text = _ref.text;
-    var type = _ref2.type,
-        id = _ref2.id,
-        _ref2$index = _ref2.index,
-        index = _ref2$index === undefined ? 0 : _ref2$index;
-
-    var messagesTypes = Drupal.Message.getMessageTypeLabels();
-    var messageWrapper = document.createElement("div");
-    var messageClose = document.createElement("button");
-
-    messageWrapper.setAttribute("class", "messages messages--" + type + " messages__hidden messages__closeable");
-    messageWrapper.setAttribute("role", type === "error" || type === "warning" ? "alert" : "status");
-    messageWrapper.setAttribute("id", id);
-    messageWrapper.style.setProperty("--animation-index", index);
-    messageWrapper.setAttribute("data-drupal-message-id", id);
-    messageWrapper.setAttribute("data-drupal-message-type", type);
-
-    messageWrapper.setAttribute("aria-label", messagesTypes[type]);
-
-    messageWrapper.innerHTML = "" + text;
-
-    messageClose.innerHTML = '<span class="visually-hidden">Close</span>';
-    messageClose.setAttribute("data-drupal-message-id", id);
-    messageClose.classList.add("drupal-message-close");
-    messageWrapper.appendChild(messageClose);
-
-    return messageWrapper;
   };
 })(jQuery, Drupal, drupalSettings);
