@@ -6,22 +6,15 @@
 **/
 
 (function ($, Drupal, drupalSettings) {
-  Drupal.Message.defaultWrapper = function () {
-    var wrapper = document.querySelector('[data-drupal-messages]');
-    if (!wrapper) {
-      wrapper = document.querySelector('[data-drupal-messages-fallback]');
-      wrapper.removeAttribute('data-drupal-messages-fallback');
-      wrapper.setAttribute('data-drupal-messages', '');
-      wrapper.classList.remove('hidden');
-    }
-    var inner = wrapper.querySelector('.messages__wrapper');
-    return inner || wrapper;
-  };
-
   Drupal.behaviors.LbUXMessage = {
     attach: function attach() {
       var displayMessages = function displayMessages(messageList) {
-        var messages = new Drupal.Message();
+        if (document.querySelector(".js-messages__wrapper")) {
+          return;
+        }
+        var messagesWrapper = document.querySelector("[data-drupal-messages]");
+        messagesWrapper.classList.add("js-messages__wrapper");
+        var messages = new Drupal.Message(messagesWrapper);
         var messageQueue = messageList.reduce(function (queue, list) {
           Object.keys(list).forEach(function (type) {
             list[type].filter(function (message) {
@@ -41,11 +34,11 @@
 
           var id = messages.add(message, { priority: type, type: type });
           var messageClose = document.createElement("button");
-          var messageWrapper = document.querySelector('[data-drupal-message-id=' + id + ']');
-
-          messageClose.innerHTML = '<span class="visually-hidden">Close</span>';
+          messageClose.innerHTML = "<span class=\"visually-hidden\">" + Drupal.t("Close") + "</span>";
           messageClose.setAttribute("data-drupal-message-id", id);
           messageClose.classList.add("drupal-message-close");
+
+          var messageWrapper = document.querySelector("[data-drupal-message-id=" + id + "]");
           messageWrapper.classList.add("messages__closeable");
           messageWrapper.style.setProperty("--animation-index", index);
           messageWrapper.appendChild(messageClose);
@@ -57,8 +50,6 @@
           });
         });
 
-        var messagesWrapper = document.querySelector("[data-drupal-messages]");
-        messagesWrapper.classList.add("js-messages__wrapper");
         messagesWrapper.addEventListener("click", function (event) {
           if (event.target.classList.contains("drupal-message-close")) {
             var id = event.target.dataset.drupalMessageId;
