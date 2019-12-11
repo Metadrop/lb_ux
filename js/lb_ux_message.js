@@ -4,16 +4,37 @@
 * https://www.drupal.org/node/2815083
 * @preserve
 **/
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function ($, Drupal, drupalSettings) {
+  Drupal.Message.defaultWrapper = function () {
+    var wrapper = document.querySelector("[data-drupal-messages]");
+    if (!wrapper) {
+      wrapper = document.querySelector("[data-drupal-messages-fallback]");
+      wrapper.removeAttribute("data-drupal-messages-fallback");
+      wrapper.setAttribute("data-drupal-messages", "");
+      wrapper.removeAttribute("class");
+    }
+
+    var inner = wrapper.querySelector("messages__wrapper") || Drupal.Message.messageInternalWrapper(wrapper);
+
+    var _wrapper = wrapper,
+        children = _wrapper.children;
+
+    [].concat(_toConsumableArray(children)).filter(function (child) {
+      return !child.classList.contains("messages__wrapper");
+    }).forEach(function (child) {
+      inner.appendChild(child);
+    });
+
+    return inner;
+  };
+
   Drupal.behaviors.LbUXMessage = {
     attach: function attach() {
       var displayMessages = function displayMessages(messageList) {
-        if (document.querySelector(".js-messages__wrapper")) {
-          return;
-        }
-        var messagesWrapper = document.querySelector("[data-drupal-messages]");
-        messagesWrapper.classList.add("js-messages__wrapper");
+        var messagesWrapper = document.querySelector(".js-messages__wrapper") ? document.querySelector(".js-messages__wrapper") : document.querySelector("[data-drupal-messages]").classList.add("js-messages__wrapper");
+
         var messages = new Drupal.Message(messagesWrapper);
         var messageQueue = messageList.reduce(function (queue, list) {
           Object.keys(list).forEach(function (type) {

@@ -5,19 +5,45 @@
 
 (($, Drupal, drupalSettings) => {
   /**
+   * Override Drupal.Message.defaultWrapper function.
+   *
+   */
+  Drupal.Message.defaultWrapper = () => {
+    let wrapper = document.querySelector("[data-drupal-messages]");
+    if (!wrapper) {
+      wrapper = document.querySelector("[data-drupal-messages-fallback]");
+      wrapper.removeAttribute("data-drupal-messages-fallback");
+      wrapper.setAttribute("data-drupal-messages", "");
+      wrapper.removeAttribute("class");
+    }
+    // Create inner div if wrapper empty or select the inner.
+    const inner =
+      wrapper.querySelector("messages__wrapper") ||
+      Drupal.Message.messageInternalWrapper(wrapper);
+
+    const { children } = wrapper;
+
+    // Append any existing messages to the inner wrapper.
+    [...children]
+      .filter(child => !child.classList.contains("messages__wrapper"))
+      .forEach(child => {
+        inner.appendChild(child);
+      });
+
+    return inner;
+  };
+  /**
    *
    * @type {Drupal~behavior}
    */
   Drupal.behaviors.LbUXMessage = {
     attach: function() {
       const displayMessages = messageList => {
-        if (document.querySelector(".js-messages__wrapper")) {
-          return;
-        }
-        const messagesWrapper = document.querySelector(
-          "[data-drupal-messages]"
-        );
-        messagesWrapper.classList.add("js-messages__wrapper");
+        const messagesWrapper = document.querySelector(".js-messages__wrapper")
+          ? document.querySelector(".js-messages__wrapper")
+          : document
+              .querySelector("[data-drupal-messages]")
+              .classList.add("js-messages__wrapper");
         const messages = new Drupal.Message(messagesWrapper);
         const messageQueue = messageList.reduce((queue, list) => {
           Object.keys(list).forEach(type => {
