@@ -4,38 +4,37 @@
 * https://www.drupal.org/node/2815083
 * @preserve
 **/
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 (function ($, Drupal, drupalSettings) {
-  Drupal.Message.defaultWrapper = function () {
-    var wrapper = document.querySelector("[data-drupal-messages]");
-    if (!wrapper) {
-      wrapper = document.querySelector("[data-drupal-messages-fallback]");
-      wrapper.removeAttribute("data-drupal-messages-fallback");
-      wrapper.setAttribute("data-drupal-messages", "");
-      wrapper.removeAttribute("class");
-    }
-
-    var inner = wrapper.querySelector("messages__wrapper") || Drupal.Message.messageInternalWrapper(wrapper);
-
-    var _wrapper = wrapper,
-        children = _wrapper.children;
-
-    [].concat(_toConsumableArray(children)).filter(function (child) {
-      return !child.classList.contains("messages__wrapper");
-    }).forEach(function (child) {
-      inner.appendChild(child);
-    });
-
-    return inner;
-  };
-
   Drupal.behaviors.LbUXMessage = {
     attach: function attach() {
-      var displayMessages = function displayMessages(messageList) {
-        var messagesWrapper = document.querySelector(".js-messages__wrapper") ? document.querySelector(".js-messages__wrapper") : document.querySelector("[data-drupal-messages]").classList.add("js-messages__wrapper");
+      var initWrapper = function initWrapper() {
+        var wrapper = document.querySelector(".js-messages__wrapper");
+        if (!wrapper) {
+          wrapper = document.querySelector("[data-drupal-messages]");
+          wrapper.classList.add("js-messages__wrapper");
+        }
 
-        var messages = new Drupal.Message(messagesWrapper);
+        if (drupalSettings.lbUX) {
+          if (!drupalSettings.lbUX.hasOwnProperty("messages")) {
+            drupalSettings.lbUX.messages = new Drupal.Message(wrapper);
+            wrapper.addEventListener("click", function (event) {
+              if (event.target.classList.contains("drupal-message-close")) {
+                var id = event.target.dataset.drupalMessageId;
+                drupalSettings.lbUX.messages.remove(id);
+              }
+            });
+          }
+        }
+
+        return wrapper;
+      };
+
+      var displayMessages = function displayMessages(messageList) {
+        var messagesWrapper = initWrapper();
+        if (!messagesWrapper || !(drupalSettings.lbUX || {}).messages) {
+          return;
+        }
         var messageQueue = messageList.reduce(function (queue, list) {
           Object.keys(list).forEach(function (type) {
             list[type].filter(function (message) {
@@ -53,7 +52,10 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           var message = item.message,
               type = item.type;
 
-          var id = messages.add(message, { priority: type, type: type });
+          var id = drupalSettings.lbUX.messages.add(message, {
+            priority: type,
+            type: type
+          });
           var messageClose = document.createElement("button");
           messageClose.innerHTML = "<span class=\"visually-hidden\">" + Drupal.t("Close") + "</span>";
           messageClose.setAttribute("data-drupal-message-id", id);
@@ -70,21 +72,19 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             id: id
           });
         });
-
-        messagesWrapper.addEventListener("click", function (event) {
-          if (event.target.classList.contains("drupal-message-close")) {
-            var id = event.target.dataset.drupalMessageId;
-            messages.remove(id);
-          }
-        });
       };
 
       if (drupalSettings.hasOwnProperty("lbUX")) {
         if (!drupalSettings.lbUX.hasOwnProperty("messageDisplay")) {
           drupalSettings.lbUX.messageDisplay = [];
         }
-        displayMessages(drupalSettings.lbUX.messageList);
       }
+
+      var _ref = drupalSettings.lbUX || {},
+          _ref$messageList = _ref.messageList,
+          messageList = _ref$messageList === undefined ? [] : _ref$messageList;
+
+      displayMessages(messageList);
     }
   };
 })(jQuery, Drupal, drupalSettings);
