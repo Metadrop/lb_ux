@@ -5,6 +5,7 @@
  * Contains lb_ux.module.
  */
 
+use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Drupal\lb_ux\Element\LayoutBuilderUX;
 use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
 
@@ -20,7 +21,7 @@ function lb_ux_element_plugin_alter(array &$definitions) {
  */
 function lb_ux_block_alter(array &$definitions) {
   foreach ($definitions as &$definition) {
-    if ($definition['id'] === 'inline_block') {
+    if ($definition['class'] === InlineBlock::class) {
       $definition['class'] = InlineBlockUX::class;
     }
   }
