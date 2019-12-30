@@ -86,6 +86,10 @@ class InlineBlockUX extends InlineBlock {
           }
         }
       }
+      // Exclude the component being added.
+      if ($form_state->has('layout_builder__component')) {
+        $count--;
+      }
     }
     $form_state->set('lb_ux.inline_block_count', ++$count);
     return $count;
