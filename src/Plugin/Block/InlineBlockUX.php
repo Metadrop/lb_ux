@@ -53,9 +53,11 @@ class InlineBlockUX extends InlineBlock {
   public function blockSubmit($form, FormStateInterface $form_state) {
     parent::blockSubmit($form, $form_state);
 
-    /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
-    $section_storage = $form_state->getFormObject()->getSectionStorage();
-    $this->keyValueFactory->get('lb_ux.inline_block_count.' . $section_storage->getStorageType())->set($section_storage->getStorageId(), $form_state->get('lb_ux.inline_block_count'));
+    if ($form_state->has('lb_ux.inline_block_count')) {
+      /** @var \Drupal\layout_builder\SectionStorageInterface $section_storage */
+      $section_storage = $form_state->getFormObject()->getSectionStorage();
+      $this->keyValueFactory->get('lb_ux.inline_block_count.' . $section_storage->getStorageType())->set($section_storage->getStorageId(), $form_state->get('lb_ux.inline_block_count'));
+    }
   }
 
   /**
