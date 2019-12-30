@@ -6,12 +6,24 @@
  */
 
 use Drupal\lb_ux\Element\LayoutBuilderUX;
+use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
 
 /**
  * Implements hook_element_plugin_alter().
  */
 function lb_ux_element_plugin_alter(array &$definitions) {
   $definitions['layout_builder']['class'] = LayoutBuilderUX::class;
+}
+
+/**
+ * Implements hook_block_alter().
+ */
+function lb_ux_block_alter(array &$definitions) {
+  foreach ($definitions as &$definition) {
+    if ($definition['id'] === 'inline_block') {
+      $definition['class'] = InlineBlockUX::class;
+    }
+  }
 }
 
 /**
