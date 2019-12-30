@@ -6,6 +6,7 @@ use Drupal\Core\Ajax\AjaxHelperTrait;
 use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\Core\Form\FormState;
+use Drupal\Core\Layout\LayoutPluginManagerInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\layout_builder\Controller\LayoutRebuildTrait;
@@ -32,6 +33,13 @@ class ConfigureSectionController implements ContainerInjectionInterface {
   protected $layoutTempstoreRepository;
 
   /**
+   * The layout plugin manager.
+   *
+   * @var \Drupal\Core\Layout\LayoutPluginManagerInterface
+   */
+  protected $layoutPluginManager;
+
+  /**
    * The form builder.
    *
    * @var \Drupal\Core\Form\FormBuilderInterface
@@ -50,15 +58,18 @@ class ConfigureSectionController implements ContainerInjectionInterface {
    *
    * @param \Drupal\layout_builder\LayoutTempstoreRepositoryInterface $layout_tempstore_repository
    *   The layout tempstore repository.
+   * @param \Drupal\Core\Layout\LayoutPluginManagerInterface $layout_plugin_manager
+   *   The layout plugin manager.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form builder.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger.
    */
-  public function __construct(LayoutTempstoreRepositoryInterface $layout_tempstore_repository, FormBuilderInterface $form_builder, MessengerInterface $messenger) {
+  public function __construct(LayoutTempstoreRepositoryInterface $layout_tempstore_repository, LayoutPluginManagerInterface $layout_plugin_manager, FormBuilderInterface $form_builder, MessengerInterface $messenger) {
     $this->layoutTempstoreRepository = $layout_tempstore_repository;
     $this->formBuilder = $form_builder;
     $this->messenger = $messenger;
+    $this->layoutPluginManager = $layout_plugin_manager;
   }
 
   /**
@@ -67,6 +78,7 @@ class ConfigureSectionController implements ContainerInjectionInterface {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('layout_builder.tempstore_repository'),
+      $container->get('plugin.manager.core.layout'),
       $container->get('form_builder'),
       $container->get('messenger')
     );
@@ -119,6 +131,29 @@ class ConfigureSectionController implements ContainerInjectionInterface {
       $url = $section_storage->getLayoutBuilderUrl();
       return new RedirectResponse($url->setAbsolute()->toString());
     }
+  }
+
+  /**
+   * Returns the title for the configure section route.
+   *
+   * @param \Drupal\layout_builder\SectionStorageInterface $section_storage
+   *   The section storage.
+   * @param int $delta
+   *   The delta of the section to splice.
+   * @param string $plugin_id
+   *   The plugin ID of the layout to add.
+   *
+   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The route title.
+   */
+  public function title(SectionStorageInterface $section_storage, $delta, $plugin_id) {
+    if (is_null($plugin_id)) {
+      $layout_definition = $section_storage->getSection($delta)->getLayout()->getPluginDefinition();
+    }
+    else {
+      $layout_definition = $this->layoutPluginManager->getDefinition($plugin_id);
+    }
+    return $this->t('Configure @label section', ['@label' => $layout_definition->getLabel()]);
   }
 
 }

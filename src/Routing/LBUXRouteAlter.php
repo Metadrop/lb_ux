@@ -22,6 +22,9 @@ class LBUXRouteAlter implements EventSubscriberInterface {
     $collection = $event->getRouteCollection();
     $route = $collection->get('layout_builder.configure_section');
 
+    // Change the title callback for configuring sections.
+    $route->setDefault('_title_callback', ConfigureSectionController::class . '::title');
+
     // Copy the existing route to always display a section configuration form
     // and give it a new path and route name. This will continue to be used when
     // updating existing sections.
