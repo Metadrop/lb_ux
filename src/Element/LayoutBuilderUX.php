@@ -21,6 +21,7 @@ class LayoutBuilderUX extends LayoutBuilder {
     $section_label = $build['#attributes']['aria-label'];
 
     $build['configure']['#title'] = $this->t('<span class="visually-hidden">Configure @section</span>', ['@section' => $section_label]);
+    $build['configure']['#url'] = Url::fromRoute('layout_builder.configure_section_form', $build['configure']['#url']->getRouteParameters());
 
     $build['remove']['#title'] = $this->t('<span class="visually-hidden">Remove @section</span>', ['@section' => $section_label]);
 
