@@ -7,6 +7,7 @@
 
 use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Drupal\lb_ux\Element\LayoutBuilderUX;
+use Drupal\lb_ux\Element\LBUXStatusMessages;
 use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
 
 /**
@@ -14,6 +15,7 @@ use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
  */
 function lb_ux_element_plugin_alter(array &$definitions) {
   $definitions['layout_builder']['class'] = LayoutBuilderUX::class;
+  $definitions['status_messages']['class'] = LBUXStatusMessages::class;
 }
 
 /**

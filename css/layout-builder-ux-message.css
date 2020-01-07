@@ -1,0 +1,88 @@
+.js-messages__wrapper.layout-container {
+  width: 60vw;
+  margin-left: -30vw;
+}
+
+.js-messages__wrapper {
+  position: fixed;
+  width: 60vw;
+  margin-left: -30vw;
+  left: 50%;
+  z-index: 42;
+  top: 0;
+}
+
+.js-messages__wrapper [data-drupal-message-type] {
+  display: none;
+}
+
+.js-messages__wrapper [data-drupal-message-type].messages__closeable {
+  display: block;
+}
+
+.messages__closeable {
+  position: relative;
+}
+
+.drupal-message-close {
+  border: none;
+  background: url('../images/bebebe/ex.svg');
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px; /* LTR */
+  appearance: none;
+}
+
+[dir="rtl"] .drupal-message-close {
+  right: auto;
+  left: 10px;
+}
+
+.js-messages__wrapper .messages + .messages {
+  margin-top: 1em;
+}
+
+.messages__closeable {
+  animation: .5s ease-out .5s both fadeIn;
+}
+
+@supports (--css: variables) {
+  .messages__closeable {
+    animation: .5s ease-out calc(var(--animation-index) * .5s) both fadeIn;
+  }
+}
+
+
+@keyframes fadeIn{
+  0% {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toolbar-fixed .js-messages__wrapper {
+  top: 60px;
+}
+
+.toolbar-horizontal.toolbar-tray-open .js-messages__wrapper {
+  top: 100px;
+}
+
+.toolbar-vertical.toolbar-tray-open .js-messages__wrapper {
+  margin-left: calc(-30vw + 7.5rem); /* LTR */
+}
+
+[dir="rtl"] .toolbar-vertical.toolbar-tray-open .js-messages__wrapper {
+  margin-right: calc(-30vw + 7.5rem);
+}
+
+.toolbar-fixed .js-messages__wrapper .messages:first-child {
+  margin-top: 0; /* bartik override */
+}
