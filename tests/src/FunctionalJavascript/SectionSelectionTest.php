@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\Tests\lb_ux\Functional;
+namespace Drupal\Tests\lb_ux\FunctionalJavascript;
 
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
-use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests the section selection UI.
  *
  * @group lb_ux
  */
-class SectionSelectionTest extends BrowserTestBase {
+class SectionSelectionTest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
@@ -60,28 +60,41 @@ class SectionSelectionTest extends BrowserTestBase {
 
     // Add a layout with no failing validation, bypassing the config form.
     $page->clickLink('Add section');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $page->clickLink('LB UX form no validation');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $assert_session->elementExists('css', '.layout--lb-ux-test-form-no-validation');
     $assert_session->pageTextNotContains('Check 1 2');
     $page->clickLink('Configure Section 1');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $assert_session->pageTextContains('Check 1 2');
     $page->pressButton('Update');
 
     // Add a layout with failing validation.
     $page->clickLink('Add section');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $page->clickLink('LB UX form with validation');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $assert_session->elementNotExists('css', '.layout--lb-ux-test-form-with-validation');
     // The error message from the failed validation is not visible.
     $assert_session->pageTextNotContains("That's not the magic word!");
     // Subsequent failed form validation does show the error message.
     $page->pressButton('Add section');
+    $assert_session->assertWaitOnAjaxRequest();
+
     $assert_session->elementNotExists('css', '.layout--lb-ux-test-form-with-validation');
     $assert_session->pageTextContains("That's not the magic word!");
+
     // Fixing the validation error allows the form to be submitted.
     $page->fillField('label', 'Abracadabra');
     $page->pressButton('Add section');
+    $assert_session->assertWaitOnAjaxRequest();
     $assert_session->elementExists('css', '.layout--lb-ux-test-form-with-validation');
-    $assert_session->pageTextNotContains("That's not the magic word!");
   }
 
 }

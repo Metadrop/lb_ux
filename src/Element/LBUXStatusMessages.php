@@ -119,8 +119,10 @@ class LBUXStatusMessages extends StatusMessages {
           '#theme' => 'status_messages__lb_ux',
         ];
         $render['#attached']['drupalSettings']['lbUX']['messageList'][] = $messages;
+        $render['#attached']['library'][] = 'lb_ux/drupal.lb_ux_message';
       }
     }
     return $render;
   }
+
 }

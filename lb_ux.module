@@ -5,9 +5,11 @@
  * Contains lb_ux.module.
  */
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Drupal\lb_ux\Element\LayoutBuilderUX;
 use Drupal\lb_ux\Element\LBUXStatusMessages;
+use Drupal\lb_ux\Form\FormAlter;
 use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
 
 /**
@@ -27,6 +29,20 @@ function lb_ux_block_alter(array &$definitions) {
       $definition['class'] = InlineBlockUX::class;
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function lb_ux_form_layout_builder_configure_section_alter(&$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::classResolver(FormAlter::class)->alterConfigureForm($form, $form_state);
+}
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function lb_ux_form_layout_builder_configure_block_alter(&$form, FormStateInterface $form_state, $form_id) {
+  \Drupal::classResolver(FormAlter::class)->alterConfigureForm($form, $form_state);
 }
 
 /**
