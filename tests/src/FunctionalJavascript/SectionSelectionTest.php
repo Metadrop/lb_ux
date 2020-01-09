@@ -64,14 +64,15 @@ class SectionSelectionTest extends WebDriverTestBase {
 
     $page->clickLink('LB UX form no validation');
     $assert_session->assertWaitOnAjaxRequest();
-
     $assert_session->elementExists('css', '.layout--lb-ux-test-form-no-validation');
     $assert_session->pageTextNotContains('Check 1 2');
+
     $page->clickLink('Configure Section 1');
     $assert_session->assertWaitOnAjaxRequest();
-
     $assert_session->pageTextContains('Check 1 2');
+
     $page->pressButton('Update');
+    $assert_session->assertWaitOnAjaxRequest();
 
     // Add a layout with failing validation.
     $page->clickLink('Add section');
@@ -79,14 +80,13 @@ class SectionSelectionTest extends WebDriverTestBase {
 
     $page->clickLink('LB UX form with validation');
     $assert_session->assertWaitOnAjaxRequest();
-
     $assert_session->elementNotExists('css', '.layout--lb-ux-test-form-with-validation');
     // The error message from the failed validation is not visible.
     $assert_session->pageTextNotContains("That's not the magic word!");
+
     // Subsequent failed form validation does show the error message.
     $page->pressButton('Add section');
     $assert_session->assertWaitOnAjaxRequest();
-
     $assert_session->elementNotExists('css', '.layout--lb-ux-test-form-with-validation');
     $assert_session->pageTextContains("That's not the magic word!");
 
