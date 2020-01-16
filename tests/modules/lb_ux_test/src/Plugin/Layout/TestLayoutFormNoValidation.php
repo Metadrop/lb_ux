@@ -6,6 +6,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Layout\LayoutDefault;
 
 /**
+ * Provides a test layout that always adds a status message.
+ *
  * @Layout(
  *   id = "lb_ux_test_form_no_validation",
  *   label = @Translation("LB UX form no validation"),

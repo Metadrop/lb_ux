@@ -39,7 +39,7 @@ class LBUXStatusMessages extends StatusMessages {
   }
 
   /**
-   * #pre_render callback to generate a placeholder.
+   * Provides a #pre_render callback to generate a placeholder.
    *
    * @param array $element
    *   A renderable array.
@@ -71,7 +71,7 @@ class LBUXStatusMessages extends StatusMessages {
   }
 
   /**
-   * #lazy_builder callback; replaces placeholder with messages.
+   * Provides a #lazy_builder callback to replace placeholder with messages.
    *
    * @param string|null $type
    *   Limit the messages returned by type. Defaults to NULL, meaning all types.
@@ -80,7 +80,7 @@ class LBUXStatusMessages extends StatusMessages {
    *   - NULL
    *   - 'status'
    *   - 'warning'
-   *   - 'error'
+   *   - 'error'.
    *
    * @return array
    *   A renderable array containing the messages.
