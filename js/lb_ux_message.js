@@ -5,7 +5,7 @@
 * @preserve
 **/
 
-(function ($, Drupal, drupalSettings) {
+(function ($, Drupal) {
   var selectors = {
     wrapper: {
       initial: "data-drupal-messages",
@@ -18,97 +18,86 @@
     }
   };
 
-  var lbMessage = {
-    list: [],
-    display: []
-  };
-
-  var initWrapper = function initWrapper() {
-    var _selectors$wrapper = selectors.wrapper,
-        active = _selectors$wrapper.active,
-        initial = _selectors$wrapper.initial;
-    var button = selectors.message.button;
-
-
-    var wrapper = document.querySelector("." + active);
-    if (!wrapper) {
-      wrapper = document.querySelector("[" + initial + "]");
-      wrapper.classList.add(active);
-    }
-
-    if (!lbMessage.hasOwnProperty("message")) {
-      lbMessage.message = new Drupal.Message(wrapper);
-      wrapper.addEventListener("click", function (event) {
-        if (event.target.classList.contains(button)) {
-          var id = event.target.dataset.drupalMessageId;
-          lbMessage.message.remove(id);
-        }
-      });
-    }
-  };
+  var lbMessageList = [];
 
   var buttonClose = function buttonClose(id) {
-    var _selectors$message = selectors.message,
-        idSelector = _selectors$message.id,
-        buttonSelector = _selectors$message.button;
+    var buttonSelector = selectors.message.button;
 
     var button = document.createElement("button");
-    button.innerHTML = "<span class=\"visually-hidden\">\n          " + Drupal.t("Close") + "\n        </span>";
-    button.setAttribute(idSelector, id);
+    button.innerHTML = "<span class=\"visually-hidden\">" + Drupal.t("Close") + "</span>";
+    button.setAttribute("data-drupal-close-id", id);
     button.classList.add(buttonSelector);
 
     return button;
   };
 
-  var displayMessages = function displayMessages(messageList) {
-    initWrapper();
+  var initMessage = function initMessage(message, index) {
+    var _selectors$message = selectors.message,
+        id = _selectors$message.id,
+        active = _selectors$message.active;
 
-    var messageQueue = messageList.reduce(function (queue, list) {
-      Object.keys(list).forEach(function (type) {
-        list[type].filter(function (message) {
-          return !lbMessage.display.find(function (display) {
-            return message === display.text;
-          });
-        }).forEach(function (message) {
-          queue.push({ message: message, type: type });
-        });
+    message.classList.add(active);
+    message.style.setProperty("--animation-index", index);
+    message.setAttribute(id, index);
+    message.appendChild(buttonClose(index));
+  };
+
+  var addMessage = function addMessage(message) {
+    var text = message.textContent.trim();
+    var newMessage = lbMessageList.indexOf(text) === -1;
+    if (newMessage) {
+      lbMessageList.push(text);
+      initMessage(message, lbMessageList.length);
+    }
+
+    return newMessage;
+  };
+
+  var getMessages = function getMessages(container) {
+    return Array.prototype.slice.call(container.querySelectorAll(".messages"));
+  };
+
+  var initMessages = function initMessages() {
+    var _selectors$wrapper = selectors.wrapper,
+        initial = _selectors$wrapper.initial,
+        active = _selectors$wrapper.active;
+    var _selectors$message2 = selectors.message,
+        id = _selectors$message2.id,
+        button = _selectors$message2.button;
+
+
+    var lbContainer = document.querySelector("[data-drupal-selector=edit-layout-builder-message] > [" + initial + "]");
+
+    if (!lbContainer.classList.contains(active)) {
+      lbContainer.classList.add(active);
+      getMessages(lbContainer).forEach(addMessage);
+
+      lbContainer.addEventListener("click", function (event) {
+        if (event.target.classList.contains(button)) {
+          event.preventDefault();
+          lbContainer.querySelector("[" + id + "=\"" + event.target.dataset.drupalCloseId + "\"]").remove();
+        }
       });
-      return queue;
-    }, []);
+    }
 
-    messageQueue.forEach(function (item, index) {
-      var messageText = item.message,
-          type = item.type;
-      var _selectors$message2 = selectors.message,
-          idSelector = _selectors$message2.id,
-          active = _selectors$message2.active;
+    var containers = Array.prototype.slice.call(document.querySelectorAll("[" + initial + "]")).filter(function (element) {
+      return !element.isEqualNode(lbContainer);
+    });
 
-      var id = lbMessage.message.add(messageText, {
-        priority: type,
-        type: type
-      });
-
-      var message = document.querySelector("[" + idSelector + "=" + id + "]");
-      message.classList.add(active);
-      message.style.setProperty("--animation-index", index);
-      message.appendChild(buttonClose(id));
-
-      lbMessage.display.push({
-        text: messageText,
-        type: type,
-        id: id
+    containers.forEach(function (container) {
+      getMessages(container).forEach(function (message) {
+        if (addMessage(message)) {
+          lbContainer.append(message);
+        } else {
+          message.remove();
+        }
       });
     });
   };
 
   Drupal.behaviors.LbUXMessage = {
     attach: function attach() {
-
-      if (drupalSettings.hasOwnProperty("lbUX")) {
-        lbMessage.list = drupalSettings.lbUX.messageList;
-      }
-
-      displayMessages(lbMessage.list);
+      initMessages();
     }
   };
-})(jQuery, Drupal, drupalSettings);
+})(jQuery, Drupal);
