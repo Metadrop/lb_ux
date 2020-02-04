@@ -51,7 +51,7 @@
 
 @supports (--css: variables) {
   .messages__closeable {
-    animation: .5s ease-out calc(var(--animation-index) * .5s) both fadeIn;
+    animation: .5s ease-out calc(var(--animation-index) * .15s) both fadeIn;
   }
 }
 
