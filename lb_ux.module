@@ -8,7 +8,6 @@
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\layout_builder\Plugin\Block\InlineBlock;
 use Drupal\lb_ux\Element\LayoutBuilderUX;
-use Drupal\lb_ux\Element\LBUXStatusMessages;
 use Drupal\lb_ux\Form\FormAlter;
 use Drupal\lb_ux\Plugin\Block\InlineBlockUX;
 
