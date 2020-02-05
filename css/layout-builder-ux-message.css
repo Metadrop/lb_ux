@@ -1,15 +1,20 @@
 .js-messages__wrapper.layout-container {
-  width: 60vw;
-  margin-left: -30vw;
+
 }
 
 .js-messages__wrapper {
   position: fixed;
-  width: 60vw;
-  margin-left: -30vw;
-  left: 50%;
-  z-index: 42;
+  width: 100%;
   top: 0;
+  left: 0;
+  z-index: 42;
+  display: flex;
+  flex-direction: column;
+  transition: padding-right 0.7s ease, padding-left 0.7s ease, padding-top 0.3s ease;
+}
+
+.js-messages__wrapper .messages {
+  margin: 0 5vw;
 }
 
 .js-messages__wrapper [data-drupal-message-type] {
@@ -76,11 +81,12 @@
 }
 
 .toolbar-vertical.toolbar-tray-open .js-messages__wrapper {
-  margin-left: calc(-30vw + 7.5rem); /* LTR */
+  padding-left: 15em; /* LTR */
 }
 
 [dir="rtl"] .toolbar-vertical.toolbar-tray-open .js-messages__wrapper {
-  margin-right: calc(-30vw + 7.5rem);
+  padding-right: 15em;
+  padding-left: 0;
 }
 
 .toolbar-fixed .js-messages__wrapper .messages:first-child {

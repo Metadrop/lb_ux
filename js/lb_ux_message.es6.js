@@ -93,6 +93,20 @@
       lbContainer.classList.add(active);
       getMessages(lbContainer).forEach(addMessage);
 
+      const mainCanvas = document.querySelector("[data-off-canvas-main-canvas]");
+      if (mainCanvas) {
+        // This event fires when canvas CSS transitions are complete.
+        const paddingEdge =
+          Drupal.offCanvas.getEdge() === "right"
+            ? "paddingRight"
+            : "paddingLeft";
+
+        mainCanvas.addEventListener("transitionend", () => {
+          lbContainer.style[paddingEdge] = mainCanvas.style[paddingEdge];
+          lbContainer.style.paddingTop = mainCanvas.style.paddingTop;
+        });
+      }
+
       lbContainer.addEventListener("click", event => {
         if (event.target.classList.contains(button)) {
           event.preventDefault();

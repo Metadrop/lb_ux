@@ -72,6 +72,16 @@
       lbContainer.classList.add(active);
       getMessages(lbContainer).forEach(addMessage);
 
+      var mainCanvas = document.querySelector("[data-off-canvas-main-canvas]");
+      if (mainCanvas) {
+        var paddingEdge = Drupal.offCanvas.getEdge() === "right" ? "paddingRight" : "paddingLeft";
+
+        mainCanvas.addEventListener("transitionend", function () {
+          lbContainer.style[paddingEdge] = mainCanvas.style[paddingEdge];
+          lbContainer.style.paddingTop = mainCanvas.style.paddingTop;
+        });
+      }
+
       lbContainer.addEventListener("click", function (event) {
         if (event.target.classList.contains(button)) {
           event.preventDefault();
