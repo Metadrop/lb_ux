@@ -13,7 +13,8 @@
   transition: padding-right 0.7s ease, padding-left 0.7s ease, padding-top 0.3s ease;
 }
 
-.js-messages__wrapper .messages {
+.js-messages__wrapper .messages,
+[dir="rtl"] .js-messages__wrapper .messages {
   margin: 0 5vw;
 }
 
