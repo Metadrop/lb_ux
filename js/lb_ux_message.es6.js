@@ -84,9 +84,15 @@
     const { initial, active } = selectors.wrapper;
     const { id, button } = selectors.message;
 
-    const lbContainer = document.querySelector(
+    const lbOuter = document.querySelector(
       `[data-drupal-selector=edit-layout-builder-message] > [${initial}]`
     );
+    // Get the inner container if exists.
+    const children = Array.prototype.slice.call(lbOuter.children);
+    const lbInner = children
+      .filter(element => !element.classList.contains("messages"))
+      .shift();
+    const lbContainer = lbInner || lbOuter;
 
     // Make the layout-builder-message the styled container and add its messages
     if (!lbContainer.classList.contains(active)) {
@@ -120,7 +126,7 @@
     // If there are multiple other drupal-data-message
     const containers = Array.prototype.slice
       .call(document.querySelectorAll(`[${initial}]`))
-      .filter(element => !element.isEqualNode(lbContainer));
+      .filter(element => !element.isEqualNode(lbOuter));
 
     // Append their messages to layout-builder-message
     containers.forEach(container => {

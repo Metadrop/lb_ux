@@ -66,7 +66,14 @@
         button = _selectors$message2.button;
 
 
-    var lbContainer = document.querySelector("[data-drupal-selector=edit-layout-builder-message] > [" + initial + "]");
+    var lbOuter = document.querySelector("[data-drupal-selector=edit-layout-builder-message] > [" + initial + "]");
+
+    var children = Array.prototype.slice.call(lbOuter.children);
+    var lbInner = children.filter(function (element) {
+      return !element.classList.contains("messages");
+    }).shift();
+
+    var lbContainer = lbInner || lbOuter;
 
     if (!lbContainer.classList.contains(active)) {
       lbContainer.classList.add(active);
@@ -91,7 +98,7 @@
     }
 
     var containers = Array.prototype.slice.call(document.querySelectorAll("[" + initial + "]")).filter(function (element) {
-      return !element.isEqualNode(lbContainer);
+      return !element.isEqualNode(lbOuter);
     });
 
     containers.forEach(function (container) {
