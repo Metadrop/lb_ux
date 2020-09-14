@@ -1,0 +1,16 @@
+{
+  "name": "drupal/lb_ux",
+  "description": "Alters the Layout Builder UI for better usability.",
+  "type": "drupal-module",
+  "homepage": "https://www.drupal.org/project/lb_ux",
+  "notification-url": "https://packages.drupal.org/8/downloads",
+  "license": "GPL-2.0-or-later",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "Tim Plunkett (tim.plunkett)",
+      "homepage": "https://www.drupal.org/u/timplunkett",
+      "role": "Maintainer"
+    }
+  ]
+}
